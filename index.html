@@ -14,18 +14,13 @@
     <div class="app-container">
         <header>
             <h1><i class="ph-fill ph-barbell"></i> Gym Tracker</h1>
-            <div class="lang-menu" style="position: relative;">
-                <button id="btn-lang-toggle" class="btn-secondary" style="width: auto; padding: 0.5rem 0.75rem; min-width: 45px; font-weight: 600;">ES</button>
-                <ul id="lang-dropdown" class="lang-dropdown hidden">
-                    <li data-lang="es">ES - Español</li>
-                    <li data-lang="en">EN - English</li>
-                    <li data-lang="fr">FR - Français</li>
-                    <li data-lang="de">DE - Deutsch</li>
-                    <li data-lang="zh">ZH - 中文</li>
-                </ul>
-            </div>
+            <button id="btn-open-settings" class="btn-secondary" style="width: auto; padding: 0.5rem; border: none;"><i class="ph-fill ph-gear" style="font-size: 1.5rem; color: var(--text-secondary);"></i></button>
             <button id="btn-add-exercise" class="btn-primary"><i class="ph-bold ph-plus"></i> Nuevo Ejercicio</button>
         </header>
+
+        <div id="dashboard-greeting" class="greeting-section" style="display: none;">
+            <!-- Dynamic Content -->
+        </div>
 
         <main id="exercises-grid" class="exercises-grid">
             <!-- Las tarjetas se generarán dinámicamente aquí -->
@@ -36,14 +31,32 @@
     <div id="modal-new-exercise" class="modal">
         <div class="modal-content">
             <div class="modal-header-row">
-                <h2><i class="ph-duotone ph-plus-circle"></i> Nuevo Ejercicio</h2>
+                <h2 id="title-new-exercise"><i class="ph-duotone ph-plus-circle"></i> Nuevo Ejercicio</h2>
                 <div class="modal-header-actions">
                     <span class="close-modal"><i class="ph-bold ph-x"></i></span>
                 </div>
             </div>
             <form id="form-new-exercise">
                 <input type="text" id="input-exercise-name" placeholder="Nombre (ej. Press Banca)" required>
-                <button type="submit" class="btn-primary">Crear Ejercicio</button>
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <select id="input-muscle-group" required class="styled-select">
+                        <option value="">Grupo Muscular</option>
+                        <option value="chest">Pecho</option>
+                        <option value="back">Espalda</option>
+                        <option value="legs">Pierna</option>
+                        <option value="shoulders">Hombro</option>
+                        <option value="arms">Brazo</option>
+                        <option value="abs">Abdominales</option>
+                    </select>
+                    <select id="input-weight-type" required class="styled-select">
+                        <option value="free">Peso Libre</option>
+                        <option value="machine">Máquina</option>
+                        <option value="cable">Polea</option>
+                        <option value="bodyweight">Peso Corporal</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <button type="submit" id="btn-create-exercise" class="btn-primary">Crear Ejercicio</button>
             </form>
         </div>
     </div>
@@ -52,7 +65,7 @@
     <div id="modal-edit-exercise" class="modal">
         <div class="modal-content">
             <div class="modal-header-row">
-                <h2><i class="ph-duotone ph-pencil-simple"></i> Editar Nombre</h2>
+                <h2 id="title-edit-exercise"><i class="ph-duotone ph-pencil-simple"></i> Editar Nombre</h2>
             </div>
             <form id="form-edit-exercise">
                 <input type="text" id="input-edit-name" placeholder="Nuevo nombre" required>
@@ -67,8 +80,8 @@
     <!-- Modal Confirmar Eliminación -->
     <div id="modal-delete-confirm" class="modal">
         <div class="modal-content" style="max-width: 400px; text-align: center;">
-            <h2 style="justify-content: center; color: var(--danger-color);"><i class="ph-duotone ph-warning"></i> ¿Eliminar Ejercicio?</h2>
-            <p style="margin-bottom: 2rem; color: var(--text-secondary);">Esta acción no se puede deshacer. Se borrará todo el historial.</p>
+            <h2 id="title-delete-modal" style="justify-content: center; color: var(--danger-color);"><i class="ph-duotone ph-warning"></i> ¿Eliminar Ejercicio?</h2>
+            <p id="text-delete-warning" style="margin-bottom: 2rem; color: var(--text-secondary);">Esta acción no se puede deshacer. Se borrará todo el historial.</p>
             <div style="display: flex; gap: 1rem; justify-content: center;">
                 <button id="btn-cancel-delete" class="btn-secondary" style="border-color: #555; color: #aaa;">Cancelar</button>
                 <button id="btn-confirm-delete" class="btn-primary" style="background-color: var(--danger-color); color: white;">Eliminar</button>
@@ -91,7 +104,7 @@
             <div class="modal-layout">
                 <div class="modal-left">
                     <div class="new-record-section">
-                        <h3><i class="ph-duotone ph-pencil-simple"></i> Registrar</h3>
+                        <h3 id="title-register"><i class="ph-duotone ph-pencil-simple"></i> Registrar</h3>
                         <form id="form-add-weight">
                             <div class="input-group">
                                 <input type="number" id="input-weight" placeholder="100 kg" required step="0.1">
@@ -102,7 +115,7 @@
                     </div>
 
                     <div class="history-section">
-                        <h3><i class="ph-duotone ph-clock-counter-clockwise"></i> Historial</h3>
+                        <h3 id="title-history"><i class="ph-duotone ph-clock-counter-clockwise"></i> Historial</h3>
                         <ul id="weight-history-list" class="history-list">
                             <!-- Lista de pesos -->
                         </ul>
@@ -110,9 +123,58 @@
                 </div>
                 
                 <div class="modal-right">
-                    <h3><i class="ph-duotone ph-chart-line-up"></i> Progreso</h3>
+                    <h3 id="title-progress"><i class="ph-bold ph-chart-line-up"></i> Progreso</h3>
                     <div class="chart-container">
                         <canvas id="weightChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Settings -->
+    <div id="modal-settings" class="modal">
+        <div class="modal-content modal-large">
+             <div class="modal-header-row">
+                <h2><i class="ph-duotone ph-gear"></i> Configuración</h2>
+                <span class="close-modal" id="close-settings"><i class="ph-bold ph-x"></i></span>
+            </div>
+            
+            <div class="settings-container">
+                <div class="settings-sidebar">
+                    <button class="settings-nav-item active" data-tab="user">Usuario</button>
+                    <button class="settings-nav-item" data-tab="lang">Idioma</button>
+                    <button class="settings-nav-item" data-tab="plan">Planificación</button>
+                </div>
+                
+                <div class="settings-content">
+                    <div id="tab-user" class="tab-panel active">
+                        <form id="form-user-profile">
+                            <div class="input-group">
+                                <input type="text" id="user-name" placeholder="Nombre">
+                                <input type="text" id="user-lastname" placeholder="Apellido">
+                                <input type="text" id="user-address" placeholder="Dirección">
+                            </div>
+                            <button type="submit" class="btn-primary" style="width: 100%;">Guardar Perfil</button>
+                        </form>
+                    </div>
+                    
+                    <div id="tab-lang" class="tab-panel">
+                        <h3>Seleccionar Idioma</h3>
+                        <div class="muscle-options" style="flex-direction: column;">
+                            <button class="btn-secondary lang-select-btn" data-lang="es" style="text-align: left;">ES - Español</button>
+                            <button class="btn-secondary lang-select-btn" data-lang="en" style="text-align: left;">EN - English</button>
+                            <button class="btn-secondary lang-select-btn" data-lang="fr" style="text-align: left;">FR - Français</button>
+                            <button class="btn-secondary lang-select-btn" data-lang="de" style="text-align: left;">DE - Deutsch</button>
+                            <button class="btn-secondary lang-select-btn" data-lang="zh" style="text-align: left;">ZH - 中文</button>
+                        </div>
+                    </div>
+                    
+                    <div id="tab-plan" class="tab-panel">
+                        <div id="planning-grid">
+                            <!-- JS Generated -->
+                        </div>
+                        <button id="btn-save-plan" class="btn-primary" style="margin-top: 1rem; width: 100%;">Guardar Plan</button>
                     </div>
                 </div>
             </div>
