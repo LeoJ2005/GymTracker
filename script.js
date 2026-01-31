@@ -8,7 +8,7 @@ const translations = {
         createBtn: "Crear Ejercicio",
         modalEditTitle: "Editar Nombre",
         placeholderEdit: "Nuevo nombre",
-        saveChangesBtn: "Guardar Cambios",
+        saveChangesBtn: "Guardar",
         modalDeleteTitle: "¿Eliminar Ejercicio?",
         deleteWarning: "Esta acción no se puede deshacer. Se borrará todo el historial.",
         cancelBtn: "Cancelar",
@@ -174,13 +174,19 @@ function applyTranslations() {
     // Buttons
     const btnCreate = document.querySelector('#form-new-exercise button');
     if(btnCreate) btnCreate.textContent = tr.createBtn;
-    const btnSaveEdit = document.querySelector('#form-edit-exercise button');
+    
+    // Updated selector for the Save button in Edit Form (it has an ID now)
+    const btnSaveEdit = document.getElementById('btn-save-edit');
     if(btnSaveEdit) btnSaveEdit.textContent = tr.saveChangesBtn;
+
     const btnSaveRecord = document.querySelector('#form-add-weight button');
     if(btnSaveRecord) btnSaveRecord.innerHTML = `<i class="ph-bold ph-check"></i> ${tr.saveRecordBtn}`;
     
     const btnCancel = document.getElementById('btn-cancel-delete');
     if(btnCancel) btnCancel.textContent = tr.cancelBtn;
+    const btnCancelEdit = document.getElementById('btn-cancel-edit');
+    if(btnCancelEdit) btnCancelEdit.textContent = tr.cancelBtn;
+    
     const btnDel = document.getElementById('btn-confirm-delete');
     if(btnDel) btnDel.textContent = tr.deleteBtn;
 
@@ -309,7 +315,7 @@ function renderHistory(historySorted) {
         li.innerHTML = `
             <span class="history-date"><i class="ph ph-calendar-blank"></i> ${formatDate(record.date)}</span>
             <span class="history-weight">
-                ${record.weight} <span style="font-size:0.8em; color:var(--text-secondary);">x ${record.reps || 0}</span>
+                ${record.weight} kg <span style="font-size:0.8em; color:var(--text-secondary);">x ${record.reps || 0} reps</span>
             </span>
         `;
         historyList.appendChild(li);
@@ -425,6 +431,13 @@ function setupEventListeners() {
 
     if (btnCancelDelete) {
         btnCancelDelete.onclick = () => closeModal(modalDeleteConfirm);
+    }
+
+    const btnCancelEdit = document.getElementById('btn-cancel-edit');
+    if (btnCancelEdit) {
+        btnCancelEdit.addEventListener('click', () => {
+             closeModal(modalEditExercise);
+        });
     }
 
     if (btnEditExercise) {

@@ -14,19 +14,17 @@
     <div class="app-container">
         <header>
             <h1><i class="ph-fill ph-barbell"></i> Gym Tracker</h1>
-            <div class="header-actions">
-                <div class="lang-menu" style="position: relative;">
-                    <button id="btn-lang-toggle" class="btn-secondary" style="width: auto; padding: 0.5rem 0.75rem; min-width: 45px; font-weight: 600;">ES</button>
-                    <ul id="lang-dropdown" class="lang-dropdown hidden">
-                        <li data-lang="es">ES - Español</li>
-                        <li data-lang="en">EN - English</li>
-                        <li data-lang="fr">FR - Français</li>
-                        <li data-lang="de">DE - Deutsch</li>
-                        <li data-lang="zh">ZH - 中文</li>
-                    </ul>
-                </div>
-                <button id="btn-add-exercise" class="btn-primary"><i class="ph-bold ph-plus"></i> Nuevo Ejercicio</button>
+            <div class="lang-menu" style="position: relative;">
+                <button id="btn-lang-toggle" class="btn-secondary" style="width: auto; padding: 0.5rem 0.75rem; min-width: 45px; font-weight: 600;">ES</button>
+                <ul id="lang-dropdown" class="lang-dropdown hidden">
+                    <li data-lang="es">ES - Español</li>
+                    <li data-lang="en">EN - English</li>
+                    <li data-lang="fr">FR - Français</li>
+                    <li data-lang="de">DE - Deutsch</li>
+                    <li data-lang="zh">ZH - 中文</li>
+                </ul>
             </div>
+            <button id="btn-add-exercise" class="btn-primary"><i class="ph-bold ph-plus"></i> Nuevo Ejercicio</button>
         </header>
 
         <main id="exercises-grid" class="exercises-grid">
@@ -55,13 +53,13 @@
         <div class="modal-content">
             <div class="modal-header-row">
                 <h2><i class="ph-duotone ph-pencil-simple"></i> Editar Nombre</h2>
-                <div class="modal-header-actions">
-                    <span class="close-modal"><i class="ph-bold ph-x"></i></span>
-                </div>
             </div>
             <form id="form-edit-exercise">
                 <input type="text" id="input-edit-name" placeholder="Nuevo nombre" required>
-                <button type="submit" class="btn-primary">Guardar Cambios</button>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button type="button" id="btn-cancel-edit" class="btn-secondary" style="border-color: #555; color: #aaa; flex: 1;">Cancelar</button>
+                    <button type="submit" id="btn-save-edit" class="btn-primary" style="flex: 1;">Guardar</button>
+                </div>
             </form>
         </div>
     </div>

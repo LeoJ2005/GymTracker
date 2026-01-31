@@ -34,18 +34,19 @@ body {
 
 header {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap; /* Allow wrapping for mobile layout */
+    align-items: center;
+    justify-content: space-between;
     gap: 1rem;
-    align-items: stretch; /* Full width button on mobile */
     margin-bottom: 2rem;
-    text-align: center;
     padding-bottom: 1rem;
     border-bottom: 1px solid #333;
+    text-align: left;
 }
 
 h1 {
     font-weight: 700;
-    font-size: clamp(1.8rem, 5vw, 2.5rem); /* Fluid typography */
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
     background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
     background-clip: text;
     -webkit-background-clip: text;
@@ -54,6 +55,23 @@ h1 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-grow: 1; /* Takes available space on left */
+}
+
+/* Mobile specific: Lang Menu stays on top right */
+.lang-menu {
+    flex-shrink: 0;
+}
+
+/* Mobile specific: Add Button moves to new line */
+#btn-add-exercise {
+    width: 100%;
+    order: 3; /* Force to bottom */
+    margin-top: 0.5rem;
+}
+
+.header-actions {
+   display: contents; /* If any remnant exists */
 }
 
 i.ph, i.ph-fill, i.ph-bold, i.ph-duotone {
@@ -231,7 +249,8 @@ h2, h3 {
 .lang-dropdown {
     position: absolute;
     top: 110%;
-    left: 0;
+    right: 0; /* Align to right edge to prevent overflow */
+    left: auto;
     background: #151515;
     border: 1px solid #333;
     border-radius: 8px;
@@ -430,20 +449,18 @@ input:focus {
 /* Tablet & Up (>= 600px) */
 @media (min-width: 600px) {
     header {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        text-align: left;
+        flex-wrap: nowrap; /* Single line */
+        gap: 1.5rem;
     }
 
-    .header-actions {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+    #btn-add-exercise {
+        width: auto; /* Natural width */
+        margin-top: 0;
+        order: 0; /* Natural order */
     }
 
-    .btn-primary {
-        width: auto;
+    .lang-menu {
+        margin-left: auto; /* Push to right if needed, though justify-between handles it */
     }
     
     .app-container {
@@ -501,5 +518,10 @@ input:focus {
     
     h1 {
         font-size: 1.8rem;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 0.5rem 1rem; /* Compact buttons */
+        font-size: 0.9rem;
     }
 }
